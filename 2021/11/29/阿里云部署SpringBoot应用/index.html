@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>阿里云部署SpringBoot应用 | 李嘉文</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云部署SpringBoot应用">
+<meta property="og:url" content="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="李嘉文">
+<meta property="og:description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-29T00:54:11.000Z">
+<meta property="article:modified_time" content="2022-05-06T14:05:49.128Z">
+<meta property="article:author" content="李嘉文">
+<meta property="article:tag" content="aliyun">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="deploy">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="李嘉文" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">李嘉文</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Jarvan</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-阿里云部署SpringBoot应用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-11-29T00:54:11.000Z" itemprop="datePublished">2021-11-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      阿里云部署SpringBoot应用
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。</p>
+<p>部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算立即写下这件事的，迫于太晚了，只好推到了早上。</p>
+<p>  本地运行SpringBoot</p>
+<p>这个应用克隆自<code>https://github.com/gabrieldim/Email-Sender-Spring-Boot.git</code>，实现了通过url发送邮件。需要配置发送人的邮箱信息，这里我用了QQ邮箱做测试。</p>
+<p>注意要开启邮箱的第三方服务</p>
+
+
+<p>  打成jar包</p>
+<p>这里我使用了IDEA的打包工具，但是IDEA给我留了陷阱。</p>
+
+
+<p>这里的MANIFEST.MF文件应该放在根目录下，也即删除<code>\src\main\java</code>，然后顺着流程走下来，jar包放在<code>.out\artifacts\email_sender-jar</code></p>
+<p>  配置CentOS</p>
+<p>主要有两部分，安装jdk11和Tomcat。</p>
+<p>安装jdk11走了很多弯路，最开始我用wget安装，但是在Oracle官网下载的tar.gz文件总是HTML类型的，导致解压出错。即使在wget命令中添加同意协议的cookie信息，依然如此。最后我换了思路，我先下载到windows本地，然后上传到LINUX服务器。</p>
+<p>上传的操作利用了PPUTY工具。其实有很多方法的，但是之前连接AWS虚机的时候安装了PUTTY，所以直接拿来用最方便啦。PPUTY的命令是<code>pscp 本机压缩文件 Linux用户@Linux公用IP:Linux服务器目录</code>。</p>
+<p>JDK安装包上传到服务器，首先用<code>tar -zxvf jdk-11.0.13-linux-x64.tar.gz</code>解压到<code>/usr/local/java</code>，这是我放置安装包的地方。然后在<code>vim /etc/profile</code>配置环境变量，在文件末尾添加&#96;&#96;</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">## JAVA</span><br><span class="line">JAVA_HOME=/usr/local/jdk-<span class="number">11.0</span>.<span class="number">13</span></span><br><span class="line">JRE_HOME=/usr/local/jdk-<span class="number">11.0</span>.<span class="number">13</span></span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
+
+<p>最后要<code>source /etc/profile</code>刷新当前shell环境。<code>java -version</code>看到Java信息就算成功。</p>
+<p>安装Tomcat最艰难，下载和安装过程和jdk大同小异，只是安装目录是<code>/usr/local/tomcat/apache-tomcat-10.0.13</code>，执行bin目录下启动命令<code>./startup.sh</code>，但是tomcat的启动日志<code>tail -f ../logs/catalina.out</code>一直报错，无法找到<code>./jdk-11.0.13/bin/jre/bin/java</code>无法找到路径，cd到相应目录发现没有jre目录，原来是Oracle搞得鬼，JDK11及以后，不单独提供JRE模块，但是用户可以自行创建JRE，命令则是在jdk的bin目录下执行<code>jlink.exe --module-path jmods --add-modules java.desktop --output jre</code>。之后重启Tomcat还是有错误，把JRE配置为和JDK同一目录便解决啦。</p>
+<p>这时Tomcat已经安装好啦。我用windows的浏览器试着连接服务器的8080端口，但一直超时。这部分查了很久，直到看到有篇文章无心插柳提到了防火墙，我想起我忘了开放服务器的8080端口了Orz。</p>
+<p>  部署应用</p>
+<p>第一次没有成功，解决了上文IDEA留的陷阱就可以啦。</p>
+<p>jar包目录下执行<code>java -jar email-sender.jar</code>可以看到Spring的信息。成功！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/" data-id="cl2umtqhu000m1tswhz8u135i" data-title="阿里云部署SpringBoot应用" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aliyun/" rel="tag">aliyun</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deploy/" rel="tag">deploy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/11/29/Leetcode-weekly-contest-269/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Leetcode-weekly-contest-269
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/11/27/PTE-Score/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">PTE-Score</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/certification/">certification</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aliyun/" rel="tag">aliyun</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aws/" rel="tag">aws</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/certification/" rel="tag">certification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deploy/" rel="tag">deploy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pte/" rel="tag">pte</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/aws/" style="font-size: 10px;">aws</a> <a href="/tags/certification/" style="font-size: 15px;">certification</a> <a href="/tags/deploy/" style="font-size: 10px;">deploy</a> <a href="/tags/leetcode/" style="font-size: 20px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/pte/" style="font-size: 10px;">pte</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/09/Leetcode-daily-practice-20211209/">Leetcode-daily-practice-20211209</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/08/Leetcode-daily-practice-20211208/">Leetcode-daily-practice-20211208</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/08/Leetcode-daily-practice-20211207/">Leetcode-daily-practice-20211207</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/06/Leetcode-daily-practice-20211206/">Leetcode-daily-practice-20211206</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/05/Leetcode-weekly-contest-270/">Leetcode-weekly-contest-270</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 李嘉文<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
