@@ -6,24 +6,24 @@
 <meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Hexo/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Hexo/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Hexo/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/Hexo/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/Hexo/css/main.css">
 
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jarvan12th.github.io","root":"/Hexo/","images":"/Hexo/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/Hexo/js/config.js"></script>
 
     <meta name="description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="阿里云部署SpringBoot应用">
-<meta property="og:url" content="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:url" content="https://jarvan12th.github.io/Hexo/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="李嘉文">
 <meta property="og:description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
 <meta property="og:locale" content="zh_CN">
@@ -37,11 +37,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
+<link rel="canonical" href="https://jarvan12th.github.io/Hexo/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/","path":"2021/11/29/阿里云部署SpringBoot应用/","title":"阿里云部署SpringBoot应用"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jarvan12th.github.io/Hexo/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/","path":"2021/11/29/阿里云部署SpringBoot应用/","title":"阿里云部署SpringBoot应用"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>阿里云部署SpringBoot应用 | 李嘉文</title>
@@ -52,7 +52,7 @@
 
 
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
+    <link rel="stylesheet" href="/Hexo/css/noscript.css">
   </noscript>
 </head>
 
@@ -69,7 +69,7 @@
 
   <div class="site-meta">
 
-    <a href="/" class="brand" rel="start">
+    <a href="/Hexo/" class="brand" rel="start">
       <i class="logo-line"></i>
       <p class="site-title">李嘉文</p>
       <i class="logo-line"></i>
@@ -124,18 +124,18 @@
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/archives/">
+        <a href="/Hexo/archives/">
           <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-          <a href="/categories/">
+          <a href="/Hexo/categories/">
         <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-          <a href="/tags/">
+          <a href="/Hexo/tags/">
         <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -175,10 +175,10 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://jarvan12th.github.io/Hexo/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/Hexo/images/avatar.gif">
       <meta itemprop="name" content="李嘉文">
     </span>
 
@@ -258,22 +258,22 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/aliyun/" rel="tag"># aliyun</a>
-              <a href="/tags/springboot/" rel="tag"># springboot</a>
-              <a href="/tags/linux/" rel="tag"># linux</a>
-              <a href="/tags/deploy/" rel="tag"># deploy</a>
+              <a href="/Hexo/tags/aliyun/" rel="tag"># aliyun</a>
+              <a href="/Hexo/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/Hexo/tags/linux/" rel="tag"># linux</a>
+              <a href="/Hexo/tags/deploy/" rel="tag"># deploy</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/11/27/PTE-Score/" rel="prev" title="PTE-Score">
+                <a href="/Hexo/2021/11/27/PTE-Score/" rel="prev" title="PTE-Score">
                   <i class="fa fa-chevron-left"></i> PTE-Score
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/11/29/Leetcode-weekly-contest-269/" rel="next" title="Leetcode-weekly-contest-269">
+                <a href="/Hexo/2021/11/29/Leetcode-weekly-contest-269/" rel="next" title="Leetcode-weekly-contest-269">
                   Leetcode-weekly-contest-269 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
@@ -310,7 +310,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/Hexo/js/comments.js"></script><script src="/Hexo/js/utils.js"></script><script src="/Hexo/js/motion.js"></script><script src="/Hexo/js/next-boot.js"></script>
 
   
 
