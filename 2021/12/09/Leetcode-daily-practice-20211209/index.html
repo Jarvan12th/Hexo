@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="(中等)剑指 Offer 31. 栈的压入、弹出序列这题思路很简单，首先模拟入栈操作，在每次入栈后，判断栈顶元素是否是目标元素。如果是则出栈，目标元素变为下一个，接着判断栈顶和目标元素，直到空栈或者栈顶不是目标元素。当所有的元素都入过栈之后，正确的出栈顺序会清空栈，所以判断最后是否栈空，即可知道是否是正确的出栈顺序。 12345678910111213141516class Solution &amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode-daily-practice-20211209">
+<meta property="og:url" content="http://example.com/2021/12/09/Leetcode-daily-practice-20211209/index.html">
+<meta property="og:site_name" content="李嘉文">
+<meta property="og:description" content="(中等)剑指 Offer 31. 栈的压入、弹出序列这题思路很简单，首先模拟入栈操作，在每次入栈后，判断栈顶元素是否是目标元素。如果是则出栈，目标元素变为下一个，接着判断栈顶和目标元素，直到空栈或者栈顶不是目标元素。当所有的元素都入过栈之后，正确的出栈顺序会清空栈，所以判断最后是否栈空，即可知道是否是正确的出栈顺序。 12345678910111213141516class Solution &amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-09T02:34:41.000Z">
+<meta property="article:modified_time" content="2022-05-06T14:05:49.126Z">
+<meta property="article:author" content="李嘉文">
+<meta property="article:tag" content="leetcode">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/12/09/Leetcode-daily-practice-20211209/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/12/09/Leetcode-daily-practice-20211209/","path":"2021/12/09/Leetcode-daily-practice-20211209/","title":"Leetcode-daily-practice-20211209"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Leetcode-daily-practice-20211209 | 李嘉文</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">李嘉文</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Jarvan</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-31-%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97"><span class="nav-number">1.</span> <span class="nav-text">(中等)剑指 Offer 31. 栈的压入、弹出序列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-32-I-%E4%BB%8E%E4%B8%8A%E5%88%B0%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">2.</span> <span class="nav-text">(中等)剑指 Offer 32 - I. 从上到下打印二叉树</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-32-III-%E4%BB%8E%E4%B8%8A%E5%88%B0%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91-III"><span class="nav-number">3.</span> <span class="nav-text">(中等)剑指 Offer 32 - III. 从上到下打印二叉树 III</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-33-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">(中等)剑指 Offer 33. 二叉搜索树的后序遍历序列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-34-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E5%92%8C%E4%B8%BA%E6%9F%90%E4%B8%80%E5%80%BC%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="nav-number">5.</span> <span class="nav-text">(中等)剑指 Offer 34. 二叉树中和为某一值的路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89-%E5%89%91%E6%8C%87-Offer-35-%E5%A4%8D%E6%9D%82%E9%93%BE%E8%A1%A8%E7%9A%84%E5%A4%8D%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">(中等)剑指 Offer 35. 复杂链表的复制</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">李嘉文</p>
+  <div class="site-description" itemprop="description">像鸟飞往你的山</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/09/Leetcode-daily-practice-20211209/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="李嘉文">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李嘉文">
+      <meta itemprop="description" content="像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Leetcode-daily-practice-20211209 | 李嘉文">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Leetcode-daily-practice-20211209
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-12-09 10:34:41" itemprop="dateCreated datePublished" datetime="2021-12-09T10:34:41+08:00">2021-12-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-06 22:05:49" itemprop="dateModified" datetime="2022-05-06T22:05:49+08:00">2022-05-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h5 id="中等-剑指-Offer-31-栈的压入、弹出序列"><a href="#中等-剑指-Offer-31-栈的压入、弹出序列" class="headerlink" title="(中等)剑指 Offer 31. 栈的压入、弹出序列"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/">剑指 Offer 31. 栈的压入、弹出序列</a></h5><p>这题思路很简单，首先模拟入栈操作，在每次入栈后，判断栈顶元素是否是目标元素。如果是则出栈，目标元素变为下一个，接着判断栈顶和目标元素，直到空栈或者栈顶不是目标元素。当所有的元素都入过栈之后，正确的出栈顺序会清空栈，所以判断最后是否栈空，即可知道是否是正确的出栈顺序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">validateStackSequences</span><span class="params">(<span class="type">int</span>[] pushed, <span class="type">int</span>[] popped)</span> &#123;</span><br><span class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> x : pushed)&#123;</span><br><span class="line">            stack.push(x);</span><br><span class="line">            <span class="keyword">while</span>(cur &lt; popped.length &amp;&amp; popped[cur] == stack.peek())&#123;</span><br><span class="line">                stack.pop();</span><br><span class="line">                cur ++;</span><br><span class="line">                <span class="keyword">if</span>(stack.isEmpty()) <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> stack.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h5 id="中等-剑指-Offer-32-I-从上到下打印二叉树"><a href="#中等-剑指-Offer-32-I-从上到下打印二叉树" class="headerlink" title="(中等)剑指 Offer 32 - I. 从上到下打印二叉树"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/">剑指 Offer 32 - I. 从上到下打印二叉树</a></h5><p>层序遍历，由于最开始节点数目不能确定，所以节点的值应首先放在List中，最后转移到int[]数组中。</p>
+<h5 id="中等-剑指-Offer-32-III-从上到下打印二叉树-III"><a href="#中等-剑指-Offer-32-III-从上到下打印二叉树-III" class="headerlink" title="(中等)剑指 Offer 32 - III. 从上到下打印二叉树 III"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/">剑指 Offer 32 - III. 从上到下打印二叉树 III</a></h5><p>这题较上一题更难，一是每层元素的值存放在一个List，二是奇偶层的顺序相反。思路是，利用队列层序遍历，额外用一个中间数据结构(LinkedList)存储每层的节点值，用已建好的遍历结果区分奇偶层，调整输出顺序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">levelOrder</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;()&#123;&#123;offer(root);&#125;&#125;;</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=queue.size(); i&gt;<span class="number">0</span>; i--)&#123;</span><br><span class="line">                <span class="type">TreeNode</span> <span class="variable">node</span> <span class="operator">=</span> queue.poll();</span><br><span class="line">                <span class="comment">// 奇数层，正序</span></span><br><span class="line">                <span class="keyword">if</span>(result.size() % <span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                    list.addLast(node.val);</span><br><span class="line">                <span class="comment">// 偶数层，倒序</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    list.addFirst(node.val);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="literal">null</span>) queue.offer(node.left);</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="literal">null</span>) queue.offer(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            result.add(list);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免入队操作影响现在层中的元素输出，这里的for循环倒着写。还有注意的是<code>addFirst()</code>和<code>addLast()</code>是LinkedList的方法，而非List的方法。</p>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h5 id="中等-剑指-Offer-33-二叉搜索树的后序遍历序列"><a href="#中等-剑指-Offer-33-二叉搜索树的后序遍历序列" class="headerlink" title="(中等)剑指 Offer 33. 二叉搜索树的后序遍历序列"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/">剑指 Offer 33. 二叉搜索树的后序遍历序列</a></h5><p>这题首先想到递归和分治，分治的每一部分都是后序遍历，结构是<code>[[左子树],[右子树],[根节点]]</code>，依次找到左右子树的分界，右树和根节点的分界，验证是否符合左小右大的原则。满足原则时，递归验证左子树和右子树。</p>
+<ul>
+<li>递归分治</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">verifyPostorder</span><span class="params">(<span class="type">int</span>[] postorder)</span> &#123;</span><br><span class="line">        <span class="comment">// 递归分治</span></span><br><span class="line">        <span class="keyword">return</span> recur(postorder, <span class="number">0</span>, postorder.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">recur</span><span class="params">(<span class="type">int</span>[] postorder, <span class="type">int</span> i, <span class="type">int</span> j)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i &gt;= j) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">p</span> <span class="operator">=</span> i;</span><br><span class="line">        <span class="keyword">while</span>(postorder[p] &lt; postorder[j]) p++;</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> p;</span><br><span class="line">        <span class="keyword">while</span>(postorder[p] &gt; postorder[j]) p++;</span><br><span class="line">        <span class="type">return</span> <span class="variable">p</span> <span class="operator">=</span>= j &amp;&amp; recur(postorder, i, m-<span class="number">1</span>) &amp;&amp; recur(postorder, m, j-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：O(n^2^)，每次调用recur()，时间复杂度为O(n)，最坏情况下（树退化为链表），需要调用n次。</li>
+<li>空间复杂度：O(n)，最坏情况下，递归n次。</li>
+</ul>
+<p>当然还有更快的算法。反向遍历数组，使用单调栈依次存储右子树的根节点，如果遍历元素小于栈顶元素，这意味着遍历元素是根节点的左子树，弹出栈顶元素；如果遍历元素大于栈顶元素，这违背了左小右大的原则。</p>
+<ul>
+<li>单调栈</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">verifyPostorder</span><span class="params">(<span class="type">int</span>[] postorder)</span> &#123;</span><br><span class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">root</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=postorder.length-<span class="number">1</span>; i&gt;=<span class="number">0</span>; i--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(postorder[i] &gt; root) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; postorder[i] &lt; stack.peek()) root = stack.pop();</span><br><span class="line">            stack.add(postorder[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：O(n)。不是O(n^2^)，这是由于，即使在最坏情况下，每个元素只是入栈出栈一次。</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h5 id="中等-剑指-Offer-34-二叉树中和为某一值的路径"><a href="#中等-剑指-Offer-34-二叉树中和为某一值的路径" class="headerlink" title="(中等)剑指 Offer 34. 二叉树中和为某一值的路径"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/">剑指 Offer 34. 二叉树中和为某一值的路径</a></h5><p>这题我首先想到了广度优先算法，使用队列作为遍历用的数据结构，另外定义<code>Map&lt;TreeNode, List&lt;Integer&gt;&gt;</code>存储已经生成的路径，<code>Map&lt;TreeNode, Integer&gt;</code>存储累加到某个节点的数值。实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">pathSum</span><span class="params">(TreeNode root, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">null</span>) <span class="keyword">return</span> result;</span><br><span class="line">        </span><br><span class="line">        Map&lt;TreeNode, List&lt;Integer&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;()&#123;&#123;put(root, <span class="keyword">new</span> <span class="title class_">LinkedList</span>()&#123;&#123;add(root.val);&#125;&#125;);&#125;&#125;;        </span><br><span class="line">        Map&lt;TreeNode, Integer&gt; value_map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;()&#123;&#123;put(root, root.val);&#125;&#125;;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;()&#123;&#123;offer(root);&#125;&#125;;</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            <span class="type">TreeNode</span> <span class="variable">node</span> <span class="operator">=</span> queue.poll();</span><br><span class="line">            <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> value_map.get(node);</span><br><span class="line">            List&lt;Integer&gt; list = getList(map, node);</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="literal">null</span>)&#123;</span><br><span class="line">                queue.offer(node.left);</span><br><span class="line">                value_map.put(node.left, value+node.left.val);</span><br><span class="line">                list.add(node.left.val);</span><br><span class="line">                map.put(node.left, list);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            list = getList(map, node);</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="literal">null</span>)&#123;</span><br><span class="line">                queue.offer(node.right);</span><br><span class="line">                value_map.put(node.right, value+node.right.val);</span><br><span class="line">                list.add(node.right.val);</span><br><span class="line">                map.put(node.right, list);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(node.left == <span class="literal">null</span> &amp;&amp; node.right == <span class="literal">null</span> &amp;&amp; value == target) result.add(list);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; <span class="title function_">getList</span><span class="params">(Map&lt;TreeNode, List&lt;Integer&gt;&gt; map, TreeNode node)</span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = map.get(node);</span><br><span class="line">        List&lt;Integer&gt; new_list = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;list.size(); i++)&#123;</span><br><span class="line">            new_list.add(list.get(i));</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> new_list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里没有使用map.get()来获取List，而是自定义了getList()，其中原因是，map.get()返回的是List的引用，而之后list.add()也是对引用操作，再之后的map.put()也是对引用操作，这会导致最后所有的元素都被放在list当中了，而并非是根节点到叶子节点的元素。当然时间复杂度O(n^2^)，空间复杂度O(n)。</p>
+<p>遍历每个节点的时候，都要维护到达该节点的路径，如果最后不是所找的路径，那时间和空间就都浪费了，故可以使用map记录子结点与父节点，满足要求之后再将路径组装出来，时间复杂度和空间复杂度还是一样，但是时间和空间消耗会更小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; ret = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">    Map&lt;TreeNode, TreeNode&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;TreeNode, TreeNode&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">pathSum</span><span class="params">(TreeNode root, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ret;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Queue&lt;TreeNode&gt; queueNode = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;TreeNode&gt;();</span><br><span class="line">        Queue&lt;Integer&gt; queueSum = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;();</span><br><span class="line">        queueNode.offer(root);</span><br><span class="line">        queueSum.offer(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!queueNode.isEmpty()) &#123;</span><br><span class="line">            <span class="type">TreeNode</span> <span class="variable">node</span> <span class="operator">=</span> queueNode.poll();</span><br><span class="line">            <span class="type">int</span> <span class="variable">rec</span> <span class="operator">=</span> queueSum.poll() + node.val;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (node.left == <span class="literal">null</span> &amp;&amp; node.right == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rec == target) &#123;</span><br><span class="line">                    getPath(node);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">                    map.put(node.left, node);</span><br><span class="line">                    queueNode.offer(node.left);</span><br><span class="line">                    queueSum.offer(rec);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (node.right != <span class="literal">null</span>) &#123;</span><br><span class="line">                    map.put(node.right, node);</span><br><span class="line">                    queueNode.offer(node.right);</span><br><span class="line">                    queueSum.offer(rec);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getPath</span><span class="params">(TreeNode node)</span> &#123;</span><br><span class="line">        List&lt;Integer&gt; temp = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">while</span> (node != <span class="literal">null</span>) &#123;</span><br><span class="line">            temp.add(node.val);</span><br><span class="line">            node = map.get(node);</span><br><span class="line">        &#125;</span><br><span class="line">        Collections.reverse(temp);</span><br><span class="line">        ret.add(<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;(temp));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最优的方式是深度优先遍历，原因是，递归本身都需要递归栈，这样连重新组装路径都省了，只要动态的根据栈调整入队出队。时间复杂度仍是O(n^2^)，空间复杂度仍是O(n)，但更快，内存负担更小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; ret = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">    Deque&lt;Integer&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">pathSum</span><span class="params">(TreeNode root, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        dfs(root, target);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(TreeNode root, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        path.offerLast(root.val);</span><br><span class="line">        target -= root.val;</span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="literal">null</span> &amp;&amp; root.right == <span class="literal">null</span> &amp;&amp; target == <span class="number">0</span>) &#123;</span><br><span class="line">            ret.add(<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;(path));</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(root.left, target);</span><br><span class="line">        dfs(root.right, target);</span><br><span class="line">        path.pollLast();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="中等-剑指-Offer-35-复杂链表的复制"><a href="#中等-剑指-Offer-35-复杂链表的复制" class="headerlink" title="(中等)剑指 Offer 35. 复杂链表的复制"></a>(中等)<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/">剑指 Offer 35. 复杂链表的复制</a></h5><p>这题的难点在于，如果只有next指针，那么依次拷贝就可以的。但同时还有random指针，next指针指向下一个节点时，random指针指向的节点可能还没建立。最后找到两种思路：</p>
+<ul>
+<li>递归 + 哈希表（哈希表存储每一个节点的新节点的创建情况）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    Map&lt;Node, Node&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); </span><br><span class="line">    <span class="keyword">public</span> Node <span class="title function_">copyRandomList</span><span class="params">(Node head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(!map.containsKey(head))&#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">new_head</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(head.val);</span><br><span class="line">            map.put(head, new_head);</span><br><span class="line">            new_head.next = copyRandomList(head.next);</span><br><span class="line">            new_head.random = copyRandomList(head.random);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map.get(head);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(n)</p>
+<ul>
+<li>三次迭代。这个方法比较巧妙，首先在原链表的每一个节点后追加一个影子节点，每个节点复制前一个节点的next和random指针，最后断开连接，返回所有的影子节点。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Node <span class="title function_">copyRandomList</span><span class="params">(Node head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="comment">// 建立影子节点</span></span><br><span class="line">        <span class="keyword">for</span>(Node node=head; node != <span class="literal">null</span>; node=node.next.next)&#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">new_node</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(node.val);</span><br><span class="line">            new_node.next = node.next;</span><br><span class="line">            node.next = new_node;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 建立影子节点的random指针</span></span><br><span class="line">        <span class="keyword">for</span>(Node node=head; node != <span class="literal">null</span>; node=node.next.next)&#123;</span><br><span class="line">            node.next.random = node.random != <span class="literal">null</span> ? node.random.next : <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 断开与原链表的连接</span></span><br><span class="line">        <span class="type">Node</span> <span class="variable">new_head</span> <span class="operator">=</span> head.next;</span><br><span class="line">        <span class="keyword">for</span>(Node node=head; node != <span class="literal">null</span>; node=node.next)&#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">new_node</span> <span class="operator">=</span> node.next;</span><br><span class="line">            node.next = node.next.next;</span><br><span class="line">            new_node.next = new_node.next != <span class="literal">null</span> ? new_node.next.next : <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> new_head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(1)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/08/Leetcode-daily-practice-20211208/" rel="prev" title="Leetcode-daily-practice-20211208">
+                  <i class="fa fa-chevron-left"></i> Leetcode-daily-practice-20211208
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/06/%E5%85%A5%E8%81%8C%E5%BE%B7%E6%AF%94%E5%89%8D%E7%9A%84%E6%80%9D%E8%80%83/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李嘉文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

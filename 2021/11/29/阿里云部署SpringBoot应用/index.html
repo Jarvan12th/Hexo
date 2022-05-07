@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云部署SpringBoot应用">
+<meta property="og:url" content="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="李嘉文">
+<meta property="og:description" content="我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。 部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-29T00:54:11.000Z">
+<meta property="article:modified_time" content="2022-05-06T14:05:49.128Z">
+<meta property="article:author" content="李嘉文">
+<meta property="article:tag" content="aliyun">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="deploy">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/","path":"2021/11/29/阿里云部署SpringBoot应用/","title":"阿里云部署SpringBoot应用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>阿里云部署SpringBoot应用 | 李嘉文</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">李嘉文</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Jarvan</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">李嘉文</p>
+  <div class="site-description" itemprop="description">像鸟飞往你的山</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/29/%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2SpringBoot%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="李嘉文">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李嘉文">
+      <meta itemprop="description" content="像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="阿里云部署SpringBoot应用 | 李嘉文">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云部署SpringBoot应用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-11-29 08:54:11" itemprop="dateCreated datePublished" datetime="2021-11-29T08:54:11+08:00">2021-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-06 22:05:49" itemprop="dateModified" datetime="2022-05-06T22:05:49+08:00">2022-05-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>我买了阿里云的轻量服务器，双十一的折扣不要太划算，43块钱租赁一整年。服务器系统设置成CentOS8，用来验证Spring Boot应用的部署环节。</p>
+<p>部署的流程很简单：本地成功运行SpringBoot应用 -&gt; 打成jar包 -&gt; 配置CentOS环境 -&gt; 部署jar包到服务器，可实际上，过程中走了很多弯路，却也有趣。从下午6点一直到1点半，我十分投入，甚至晚饭也忘了。本来打算立即写下这件事的，迫于太晚了，只好推到了早上。</p>
+<p>  本地运行SpringBoot</p>
+<p>这个应用克隆自<code>https://github.com/gabrieldim/Email-Sender-Spring-Boot.git</code>，实现了通过url发送邮件。需要配置发送人的邮箱信息，这里我用了QQ邮箱做测试。</p>
+<p>注意要开启邮箱的第三方服务</p>
+
+
+<p>  打成jar包</p>
+<p>这里我使用了IDEA的打包工具，但是IDEA给我留了陷阱。</p>
+
+
+<p>这里的MANIFEST.MF文件应该放在根目录下，也即删除<code>\src\main\java</code>，然后顺着流程走下来，jar包放在<code>.out\artifacts\email_sender-jar</code></p>
+<p>  配置CentOS</p>
+<p>主要有两部分，安装jdk11和Tomcat。</p>
+<p>安装jdk11走了很多弯路，最开始我用wget安装，但是在Oracle官网下载的tar.gz文件总是HTML类型的，导致解压出错。即使在wget命令中添加同意协议的cookie信息，依然如此。最后我换了思路，我先下载到windows本地，然后上传到LINUX服务器。</p>
+<p>上传的操作利用了PPUTY工具。其实有很多方法的，但是之前连接AWS虚机的时候安装了PUTTY，所以直接拿来用最方便啦。PPUTY的命令是<code>pscp 本机压缩文件 Linux用户@Linux公用IP:Linux服务器目录</code>。</p>
+<p>JDK安装包上传到服务器，首先用<code>tar -zxvf jdk-11.0.13-linux-x64.tar.gz</code>解压到<code>/usr/local/java</code>，这是我放置安装包的地方。然后在<code>vim /etc/profile</code>配置环境变量，在文件末尾添加&#96;&#96;</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">## JAVA</span><br><span class="line">JAVA_HOME=/usr/local/jdk-<span class="number">11.0</span>.<span class="number">13</span></span><br><span class="line">JRE_HOME=/usr/local/jdk-<span class="number">11.0</span>.<span class="number">13</span></span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
+
+<p>最后要<code>source /etc/profile</code>刷新当前shell环境。<code>java -version</code>看到Java信息就算成功。</p>
+<p>安装Tomcat最艰难，下载和安装过程和jdk大同小异，只是安装目录是<code>/usr/local/tomcat/apache-tomcat-10.0.13</code>，执行bin目录下启动命令<code>./startup.sh</code>，但是tomcat的启动日志<code>tail -f ../logs/catalina.out</code>一直报错，无法找到<code>./jdk-11.0.13/bin/jre/bin/java</code>无法找到路径，cd到相应目录发现没有jre目录，原来是Oracle搞得鬼，JDK11及以后，不单独提供JRE模块，但是用户可以自行创建JRE，命令则是在jdk的bin目录下执行<code>jlink.exe --module-path jmods --add-modules java.desktop --output jre</code>。之后重启Tomcat还是有错误，把JRE配置为和JDK同一目录便解决啦。</p>
+<p>这时Tomcat已经安装好啦。我用windows的浏览器试着连接服务器的8080端口，但一直超时。这部分查了很久，直到看到有篇文章无心插柳提到了防火墙，我想起我忘了开放服务器的8080端口了Orz。</p>
+<p>  部署应用</p>
+<p>第一次没有成功，解决了上文IDEA留的陷阱就可以啦。</p>
+<p>jar包目录下执行<code>java -jar email-sender.jar</code>可以看到Spring的信息。成功！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/aliyun/" rel="tag"># aliyun</a>
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/deploy/" rel="tag"># deploy</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/27/PTE-Score/" rel="prev" title="PTE-Score">
+                  <i class="fa fa-chevron-left"></i> PTE-Score
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/29/Leetcode-weekly-contest-269/" rel="next" title="Leetcode-weekly-contest-269">
+                  Leetcode-weekly-contest-269 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李嘉文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
